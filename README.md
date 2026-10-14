@@ -1,5 +1,10 @@
 # Prosa
 
+> [!IMPORTANT]
+> **Este repositório foi arquivado.** O projeto continua com o nome **Bate-Papo** em
+> **[github.com/rodrigoffonseca/bate-papo](https://github.com/rodrigoffonseca/bate-papo)**.
+> Issues, pull requests e novas versões devem ir para lá.
+
 **Mensageiro open-source, 100% brasileiro, com criptografia de ponta a ponta e soberania dos dados.**
 
 O Prosa é um aplicativo de mensagens no estilo WhatsApp, pensado para o Brasil:

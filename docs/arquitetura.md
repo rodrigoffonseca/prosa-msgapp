@@ -1,5 +1,7 @@
 # Arquitetura
 
+> Para a visão funcional (capacidades, fluxos ponta a ponta) e a infraestrutura necessária para operar o serviço, veja [arquitetura-funcional.md](arquitetura-funcional.md).
+
 ## Visão geral
 
 O Prosa tem três peças:

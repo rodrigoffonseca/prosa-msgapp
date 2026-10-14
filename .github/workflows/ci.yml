@@ -1,0 +1,68 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  server:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: prosa
+          POSTGRES_PASSWORD: prosa
+          POSTGRES_DB: prosa_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U prosa" --health-interval 2s --health-timeout 3s --health-retries 20
+    env:
+      PROSA_TEST_DATABASE_URL: postgres://prosa:prosa@localhost:5432/prosa_test?sslmode=disable
+    defaults:
+      run:
+        working-directory: server
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+      - name: gofmt
+        run: test -z "$(gofmt -l .)" || (gofmt -l . && exit 1)
+      - run: go vet ./...
+      - run: go test -race ./...
+
+  clients:
+    runs-on: ubuntu-latest
+    services:
+      postgres:
+        image: postgres:16
+        env:
+          POSTGRES_USER: prosa
+          POSTGRES_PASSWORD: prosa
+          POSTGRES_DB: prosa_test
+        ports: ["5432:5432"]
+        options: >-
+          --health-cmd "pg_isready -U prosa" --health-interval 2s --health-timeout 3s --health-retries 20
+    env:
+      PROSA_TEST_DATABASE_URL: postgres://prosa:prosa@localhost:5432/prosa_test?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: server/go.mod
+          cache-dependency-path: server/go.sum
+      - run: npm ci
+      - run: npm run typecheck
+      - run: npm run build
+      # O teste ponta a ponta compila e sobe o servidor Go.
+      - run: npm test

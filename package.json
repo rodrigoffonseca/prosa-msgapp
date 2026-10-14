@@ -1,0 +1,18 @@
+{
+  "name": "prosa",
+  "private": true,
+  "description": "Prosa — mensageiro open-source brasileiro com criptografia de ponta a ponta",
+  "license": "GPL-3.0-or-later",
+  "workspaces": [
+    "packages/crypto",
+    "packages/client"
+  ],
+  "scripts": {
+    "build": "npm run build --workspaces",
+    "test": "npm test --workspaces",
+    "typecheck": "npm run build -w @prosa/crypto && npm run typecheck --workspaces"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}

@@ -1,0 +1,36 @@
+# Ambiente de desenvolvimento: docker compose up
+# Para produção, veja docs/auto-hospedagem.md.
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: prosa
+      POSTGRES_PASSWORD: prosa
+      POSTGRES_DB: prosa
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U prosa"]
+      interval: 2s
+      timeout: 3s
+      retries: 20
+
+  server:
+    build: ./server
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      PROSA_ENV: development
+      PROSA_DATABASE_URL: postgres://prosa:prosa@postgres:5432/prosa?sslmode=disable
+      PROSA_SMS_PROVIDER: console
+      # Devolve o código SMS na resposta da API. Apenas desenvolvimento!
+      PROSA_DEV_EXPOSE_OTP: "true"
+    volumes:
+      - blobs:/data
+    ports:
+      - "8080:8080"
+
+volumes:
+  pgdata:
+  blobs:

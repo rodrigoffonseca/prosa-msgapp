@@ -42,7 +42,7 @@ O Prosa é um aplicativo de mensagens no estilo WhatsApp, pensado para o Brasil:
 - [`packages/crypto/`](packages/crypto/) — `@prosa/crypto`: X3DH, Double Ratchet, cifra de anexos, número de segurança.
 - [`packages/client/`](packages/client/) — `@prosa/client`: SDK em TypeScript usado pelos apps (cadastro, envio, recebimento, grupos).
 
-Detalhes em [docs/arquitetura.md](docs/arquitetura.md), [docs/seguranca.md](docs/seguranca.md) e [docs/api.md](docs/api.md).
+Detalhes em [docs/arquitetura-funcional.md](docs/arquitetura-funcional.md) (capacidades, fluxos e infraestrutura de operação), [docs/arquitetura.md](docs/arquitetura.md), [docs/seguranca.md](docs/seguranca.md) e [docs/api.md](docs/api.md).
 
 ## Rodando localmente
 
